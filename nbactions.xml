@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-Package</actionName>
+            <displayName>Package</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>package</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-Generate site report</actionName>
+            <displayName>Generate site report</displayName>
+            <goals>
+                <goal>site:site</goal>
+                <goal>-o</goal>
+                <goal>site:deploy</goal>
+                <goal>-o</goal>
+                
+                
+                
+            </goals>
+        </action>
+    </actions>
