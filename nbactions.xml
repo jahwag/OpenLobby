@@ -11,14 +11,25 @@
         <action>
             <actionName>CUSTOM-Generate site report</actionName>
             <displayName>Generate site report</displayName>
+            <recursive>false</recursive>
             <goals>
                 <goal>site:site</goal>
-                <goal>-o</goal>
-                <goal>site:deploy</goal>
-                <goal>-o</goal>
                 
                 
                 
+                
+                
+                
+                
+                
+                
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-Scala build</actionName>
+            <displayName>Scala build</displayName>
+            <goals>
+                <goal>scala:compile</goal>
             </goals>
         </action>
     </actions>
