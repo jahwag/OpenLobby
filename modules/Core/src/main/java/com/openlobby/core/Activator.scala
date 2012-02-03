@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.openlobby.login
+package com.openlobby.core
 
 import org.osgi.framework.BundleActivator
 import org.osgi.framework.BundleContext
 
 class Activator extends BundleActivator {  
-
+  
   def start( context: BundleContext ) {
   }    
 

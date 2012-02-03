@@ -14,17 +14,25 @@
  * limitations under the License.
  */
 
-package com.openlobby.login
+package com.openlobby.listener
 
-import org.osgi.framework.BundleActivator
-import org.osgi.framework.BundleContext
+/**
+ * Used to associate interested parties with a ListenerService.
+ */
+trait ListenerService {
 
-class Activator extends BundleActivator {  
-
-  def start( context: BundleContext ) {
-  }    
-
-  def stop( context: BundleContext )  {
-  }
+  /**
+   * Register as an observer of server messages.
+   * @caller Object which will be called when there is a new message.
+   */
+  def registerObserver(caller : ListenerObserver)
+  
+  /**
+   * Unregister as an observer of server messages.
+   * @caller Object to remove as an observer.
+   */
+  def unregisterObserver(caller : ListenerObserver)
+  
+  
   
 }

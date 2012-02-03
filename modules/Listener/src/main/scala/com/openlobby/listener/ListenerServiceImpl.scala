@@ -13,21 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.openlobby.listener
 
-import org.osgi.framework.BundleActivator
-import org.osgi.framework.BundleContext
+import java.util.LinkedList
 
-class Activator extends BundleActivator {  
-  var service = new ListenerServiceImpl
-  
-  def start( context: BundleContext ) {
-    context.registerService(service.getClass.getName, service, null)
-  }    
+class ListenerServiceImpl extends Thread with ListenerService {
 
-  def stop( context: BundleContext )  {
-    service.stop
-    service = null
+  var run = true
   
+  private final def observers = new LinkedList[ListenerObserver]
+  
+  /**
+   * Register a ListenerObserver.
+   * @param caller receives server messages.
+   */
+  def registerObserver(caller : ListenerObserver) {
+    observers.add(caller)
+  }
+  
+  /**
+   * Remove ListenerObserver. 
+   * 
+   * This is should be done when caller bundle state is no longer ACTIVE 
+   * to prevent NullPointerException.
+   * @param caller receives server messages.
+   */
+  def removeObserver(caller : ListenerObserver) {
+    observers.remove(caller)
   }
 }

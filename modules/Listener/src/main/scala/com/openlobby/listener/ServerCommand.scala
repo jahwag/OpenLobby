@@ -1,5 +1,6 @@
 /*
- * Copyright 2012 Jahziah Wagner <jahziah[dot]wagner[at]gmail[dot]com>.
+ * Copyright Error: on line 4, column 29 in Templates/Licenses/license-apache20.txt
+ Expecting a date here, found: 2012-feb-03 Jahziah Wagner <jahziah[dot]wagner[at]gmail[dot]com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +15,8 @@
  * limitations under the License.
  */
 
-package com.openlobby.login
+package com.openlobby.listener
 
-import org.osgi.framework.BundleActivator
-import org.osgi.framework.BundleContext
+class ServerCommand {
 
-class Activator extends BundleActivator {  
-
-  def start( context: BundleContext ) {
-  }    
-
-  def stop( context: BundleContext )  {
-  }
-  
 }

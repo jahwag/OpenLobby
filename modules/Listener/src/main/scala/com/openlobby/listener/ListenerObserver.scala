@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package com.openlobby.login
+package com.openlobby.listener
 
-import org.osgi.framework.BundleActivator
-import org.osgi.framework.BundleContext
-
-class Activator extends BundleActivator {  
-
-  def start( context: BundleContext ) {
-  }    
-
-  def stop( context: BundleContext )  {
-  }
+/**
+ * A ListenerObserver is able to be notified of server messages via the 
+ * notify method.
+ */
+trait ListenerObserver {
   
+  /**
+   * Notifies ListenerObserver of a server command.
+   * @cmd command in question.
+   */
+  def notify(cmd: ServerCommand)
+
 }
