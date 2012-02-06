@@ -1,8 +1,6 @@
 OpenLobby
 =========
-This is a modular, cross-platform lobby for Spring (www.springrts.com) intended as a successor to CheeseLobby.
-
-Bundles are found inside /modules/.
+This is a modular cross-platform lobby for Spring (www.springrts.com) intended as a successor to CheeseLobby.
 
 ## Structure
 - OpenLobby:			Aggregator/parent project inherited by children.
@@ -17,19 +15,22 @@ Bundles are found inside /modules/.
 	- Logging:			File and remote logging wrapper for the OSGi logging service.
 	- Distribution:		Collects artifacts from all modules and assembles them.
 
-This is the backend to OpenLobby. OpenLobby frontend(GUI) will be composed of JSR223 scripts.
+Bundles are found inside /modules/.
+	
+## Frontend(GUI)
+The OpenLobby frontend will be composed of JSR223 scripts for flexibility.
 
 Usage
 -----	
 ###Unit tests
-TBA.	
+Run the 'surefire:test' goal.
 	
 ###Build
-Run 'mvn package'
+Run the 'package' goal.
 
 ###Running
-Run 'mvn exec:exec' on the Launcher module.
+Run the 'exec:exec' goal on the Launcher module.
 
 ###Deployment
-After building find the zip file in modules/Distribution/target.
+After building, zip file will be found in modules/Distribution/target/.
 
