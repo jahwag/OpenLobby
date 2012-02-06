@@ -19,7 +19,6 @@ package com.openlobby.core.test
 import com.openlobby.core.ServiceMonitorMap
 import org.junit._
 import Assert._
-import scala.collection.immutable.HashMap
 
 @Test
 class ServiceMonitorTest {

@@ -1,0 +1,1 @@
+java -jar -Djava.library.path="${release.libraries}" "${release.modules}${release.finalName}"

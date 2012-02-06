@@ -15,42 +15,37 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.mainClass>com.openlobby.launcher.App</project.mainClass>
     </properties>
-
+    
     <dependencies>
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
             <version>${scala.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.10</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.framework</artifactId>
-            <version>4.0.2</version>
-            <type>jar</type>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.core</artifactId>
-            <version>4.2.0</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi</artifactId>
-            <version>3.0.0</version>
-            <type>jar</type>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
-
+    
     <build>
         <plugins>   
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>java</executable>
+                    <arguments>
+                        <argument>-jar</argument>
+                        <argument>./../Distribution/target/distribution-${project.version}-bin/distribution-${project.version}/module/${project.artifactId}-${project.version}.jar</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -58,12 +53,13 @@
                 <configuration>
                     <archive>
                         <manifest>
+                            <classpathPrefix>./../lib/</classpathPrefix>
                             <addClasspath>true</addClasspath>
                             <mainClass>${project.mainClass}</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
-            </plugin>
+            </plugin> 
         </plugins>
     </build>
 </project>

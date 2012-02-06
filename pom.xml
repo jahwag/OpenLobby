@@ -20,14 +20,12 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <scala.version>2.9.1</scala.version>
+        <project.mainClass>com.openlobby.launcher.App</project.mainClass>
+        <project.natives>${basedir}/target/natives/</project.natives>
+        <release.libraries>lib/</release.libraries>
+        <release.modules>module/</release.modules>
+        <release.finalName>launcher-${project.version}.jar</release.finalName>
     </properties>
-    
-    <modules>
-        <module>modules/Listener</module>
-        <module>modules/Login</module>
-        <module>modules/Launcher</module>
-        <module>modules/Distribution</module>
-    </modules>
 
     <developers>
         <developer>
@@ -37,20 +35,20 @@
             <url>www.jahziah.com</url>
         </developer>
     </developers>
-    
+
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
-    
+
     <scm>
         <url>https://jahwag@github.com/jahwag/OpenLobby.git</url>
         <connection>scm:git:git://github.com/jahwag/OpenLobby.git</connection>
         <developerConnection>scm:git:git@github.com:jahwag/OpenLobby.git</developerConnection>
     </scm>
-    
+
     <repositories>
         <repository>
             <id>junitsync repo</id>
@@ -62,7 +60,7 @@
             <url>http://scala-tools.org/repo-releases</url>
         </repository>
     </repositories>
-    
+
     <pluginRepositories>
         <pluginRepository>
             <id>Codehaus repository</id>
@@ -77,22 +75,35 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.osgi.core</artifactId>
-            <version>1.4.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
+            <version>4.10</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.framework</artifactId>
+            <version>4.0.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <version>4.3.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.springrts</groupId>
             <artifactId>unitsync</artifactId>
             <version>0.3-SNAPSHOT</version>
-            <scope>runtime</scope>
+            <scope>compile</scope>
             <exclusions>
                 <exclusion>
                     <artifactId>jna-jnaerator</artifactId>
@@ -108,23 +119,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.framework</artifactId>
-            <version>4.0.2</version>
-            <scope>runtime</scope>
-        </dependency>  
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
-            <version>${scala.version}</version>
-        </dependency>
     </dependencies>
 
     <build>
         <sourceDirectory>src/main/scala</sourceDirectory>
         <testSourceDirectory>src/test/scala</testSourceDirectory>
-       
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -134,7 +134,7 @@
             <plugin>
                 <groupId>org.scala-tools</groupId>
                 <artifactId>maven-scala-plugin</artifactId>
-                <version>2.15.2</version> 
+                <version>2.15.2</version>
                 <executions>
                     <execution>
                         <goals>
@@ -144,10 +144,10 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <scalaversion>${scala.version}</scalaversion> 
+                    <scalaversion>${scala.version}</scalaversion>
+                    <sourceDir>src/main/scala</sourceDir>
                     <testSourceDir>src/test/scala</testSourceDir>
                 </configuration>
-               
             </plugin>
             <plugin>
                 <groupId>com.github.github</groupId>
@@ -179,7 +179,8 @@
                                 <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
                                 <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
                             </configuration>
-              <!-- simpler configuration without reportSets available for usual cases -->
+							<!-- simpler configuration without reportSets available for usual 
+								cases -->
                             <reports>
                                 <report>dependencies</report>
                                 <report>scm</report>
@@ -188,33 +189,33 @@
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-javadoc-plugin</artifactId>
-                            <version>2.8</version> 
+                            <version>2.8</version>
                         </plugin>
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-changelog-plugin</artifactId>
-                            <version>2.2</version> 
+                            <version>2.2</version>
                         </plugin>
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-surefire-report-plugin</artifactId>
-                            <version>2.11</version> 
+                            <version>2.11</version>
                         </plugin>
                         <plugin>
                             <groupId>org.codehaus.mojo</groupId>
                             <artifactId>jdepend-maven-plugin</artifactId>
-                            <version>2.0-beta-2</version> 
+                            <version>2.0-beta-2</version>
                         </plugin>
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-checkstyle-plugin</artifactId>
-                            <version>2.8</version> 
+                            <version>2.8</version>
                         </plugin>
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-pmd-plugin</artifactId>
-                            <version>2.6</version> 
-                        </plugin> 
+                            <version>2.6</version>
+                        </plugin>
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-jxr-plugin</artifactId>
@@ -234,9 +235,32 @@
                             <descriptor>src/assemble/bin.xml</descriptor>
                         </descriptors>
                     </configuration>
+                    <executions>
+                        <execution>
+                            <id>bundle-project-sources</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                            <configuration>
+                                <descriptors>
+                                    <descriptor>src/assemble/assembly.xml</descriptor>
+                                </descriptors>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
-        
     </build>
+    
+    
+
+    <modules>
+        <module>modules/Core</module>
+        <module>modules/Listener</module>
+        <module>modules/Login</module>
+        <module>modules/Launcher</module>
+        <module>modules/Distribution</module>
+    </modules>
 </project>

@@ -20,8 +20,6 @@ import java.util.LinkedList
 
 class ListenerServiceImpl extends Thread with ListenerService {
 
-  var run = true
-  
   private final def observers = new LinkedList[ListenerObserver]
   
   /**
@@ -39,7 +37,7 @@ class ListenerServiceImpl extends Thread with ListenerService {
    * to prevent NullPointerException.
    * @param caller receives server messages.
    */
-  def removeObserver(caller : ListenerObserver) {
+  def unregisterObserver(caller : ListenerObserver) {
     observers.remove(caller)
   }
 }
