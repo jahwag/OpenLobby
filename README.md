@@ -35,9 +35,10 @@ Bundles are found inside /modules/.
 	
 ## Frontend(GUI)
 The OpenLobby frontend will be composed of JSR223 scripts for flexibility.
-	
+
+## Modules
 ### Core-manager
-### Launcher
+### Launcher (not a bundle)
 ### Listener
 ### Login
 ### Communication
@@ -45,4 +46,4 @@ The OpenLobby frontend will be composed of JSR223 scripts for flexibility.
 ### Download
 ### JUnitsync
 ### Logging
-### Distribution
+### Distribution (not a bundle)
