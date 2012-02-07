@@ -20,6 +20,9 @@ package com.openlobby.listener
  * Used to associate interested parties with a ListenerService.
  */
 trait ListenerService {
+  
+  private final val SPRING_SERVER = "lobby.springrts.com"
+  private final val SPRING_SERVER_PORT = 8200
 
   /**
    * Register as an observer of server messages.
