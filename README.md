@@ -38,8 +38,26 @@ The OpenLobby frontend will be composed of JSR223 scripts for flexibility.
 
 ## Modules
 ### Core-manager
+All calls to services should be through here. This allows centralized exception handling.
+
+| Public methods 			 | Description |
+| getService(name: String)	 | Gets a service from the dependency manager. |
+
 ### Launcher (not a bundle)
+| Public methods 			 | Description |
+| getService(name: String)	 | Gets a service through the Core-manager bundle. |
+| restart					 | Restarts the application, re-loading any bundles that were active. |
+
 ### Listener
+
+#### ListenerService
+| Public methods 			 | Description |
+| N/A						 |             |
+
+#### ListenerServiceImpl
+| Invokes method 			 | Service	   | Description |
+| notify(msg : ServerMessage)|             |			 |
+
 ### Login
 ### Communication
 ### Room
