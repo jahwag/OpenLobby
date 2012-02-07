@@ -1,3 +1,15 @@
+#+TITLE:     readme
+#+AUTHOR:    Jahziah Wagner
+#+EMAIL:     NA
+#+DATE:      2012-02-07
+#+DESCRIPTION: 
+#+KEYWORDS: 
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:nil skip:nil d:nil todo:nil pri:nil tags:not-in-toc
+#+EXPORT_EXCLUDE_TAGS: exclude
+#+STARTUP:    showall
+
 OpenLobby
 =========
 This is a modular cross-platform lobby for Spring (www.springrts.com) intended as a successor to CheeseLobby.
