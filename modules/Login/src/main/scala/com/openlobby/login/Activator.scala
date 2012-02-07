@@ -16,15 +16,18 @@
 
 package com.openlobby.login
 
-import org.osgi.framework.BundleActivator
+import org.apache.felix.dm.DependencyActivatorBase
+import org.apache.felix.dm.DependencyManager
 import org.osgi.framework.BundleContext
 
-class Activator extends BundleActivator {  
-
-  def start( context: BundleContext ) {
-  }    
-
-  def stop( context: BundleContext )  {
+class Activator extends DependencyActivatorBase {  
+  
+  def init(ctx : BundleContext, manager : DependencyManager) {
+    
+  }
+  
+  def destroy(ctx : BundleContext, manager : DependencyManager) {
+    
   }
   
 }

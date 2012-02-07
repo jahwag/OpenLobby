@@ -17,17 +17,11 @@
 package com.openlobby.launcher
 
 object App {
-  
+
   def main(args: Array[String]) {
-    println("Starting OpenLobby")
-    
-    //def fw = new EmbeddedFramework
-   // def installer = new BundleInstaller("./../Distribution/target/Distribution-0.1-SNAPSHOT-bin", fw.framework.getBundleContext)
-     
-    //installer.installBundle("core")
-    
-    println("Stopping OpenLobby")
+    println("Starting OpenLobby.")
+    new Launcher
+    println("Stopping OpenLobby.")
   }
-
-
+  
 }

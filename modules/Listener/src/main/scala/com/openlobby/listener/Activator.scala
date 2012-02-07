@@ -15,19 +15,18 @@
  */
 package com.openlobby.listener
 
-import org.osgi.framework.BundleActivator
+import org.apache.felix.dm.DependencyActivatorBase
+import org.apache.felix.dm.DependencyManager
 import org.osgi.framework.BundleContext
 
-class Activator extends BundleActivator {  
-  var service = new ListenerServiceImpl
+class Activator extends DependencyActivatorBase {  
   
-  def start( context: BundleContext ) {
-    context.registerService(service.getClass.getName, service, null)
-  }    
-
-  def stop( context: BundleContext )  {
-    service.stop
-    service = null
-  
+  def init(ctx : BundleContext, manager : DependencyManager) {
+    
   }
+  
+  def destroy(ctx : BundleContext, manager : DependencyManager) {
+    
+  }
+  
 }

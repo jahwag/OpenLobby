@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package com.openlobby.launcher
+package com.openlobby.core
 
-import java.util.HashMap
-import org.apache.felix.framework.Felix
-import org.osgi.framework.launch.Framework
+import org.apache.felix.dm.DependencyActivatorBase
+import org.apache.felix.dm.DependencyManager
+import org.osgi.framework.BundleContext
 
-class EmbeddedFramework {
-  var framework : Framework = initFramework
+class Activator extends DependencyActivatorBase {  
   
-  private def initFramework:Framework = {
-    val config = new HashMap
-    val felix = new Felix(config)
-    felix.start
+  def init(ctx : BundleContext, manager : DependencyManager) {
     
-    return felix
   }
+  
+  def destroy(ctx : BundleContext, manager : DependencyManager) {
+    
+  }
+  
 }

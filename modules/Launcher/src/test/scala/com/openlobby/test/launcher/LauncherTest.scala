@@ -16,7 +16,6 @@
 
 package com.openlobby.test.launcher
 
-import com.openlobby.launcher.EmbeddedFramework
 import java.io.File
 import org.junit._
 import Assert._

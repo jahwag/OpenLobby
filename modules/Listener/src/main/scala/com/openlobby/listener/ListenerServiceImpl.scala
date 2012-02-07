@@ -21,6 +21,7 @@ import java.util.LinkedList
 class ListenerServiceImpl extends Thread with ListenerService {
 
   private final def observers = new LinkedList[ListenerObserver]
+  println("Listener started.")
   
   /**
    * Register a ListenerObserver.

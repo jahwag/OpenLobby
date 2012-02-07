@@ -18,10 +18,9 @@
     
     <dependencies>
         <dependency>
-            <groupId>org.scala-lang</groupId>
+            <groupId>com.weiglewilczek.scala-lang-osgi</groupId>
             <artifactId>scala-library</artifactId>
-            <version>${scala.version}</version>
-            <scope>compile</scope>
+            <version>2.9.1</version>
         </dependency>
     </dependencies>
     
@@ -39,10 +38,11 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <workingDirectory>./../Distribution/target/distribution-${project.version}-bin/distribution-${project.version}/</workingDirectory>
                     <executable>java</executable>
                     <arguments>
                         <argument>-jar</argument>
-                        <argument>./../Distribution/target/distribution-${project.version}-bin/distribution-${project.version}/module/${project.artifactId}-${project.version}.jar</argument>
+                        <argument>module/${project.artifactId}-${project.version}.jar</argument>
                     </arguments>
                 </configuration>
             </plugin>
@@ -53,7 +53,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <classpathPrefix>./../lib/</classpathPrefix>
+                            <!--<classpathPrefix>./../lib/</classpathPrefix>-->
                             <addClasspath>true</addClasspath>
                             <mainClass>${project.mainClass}</mainClass>
                         </manifest>
