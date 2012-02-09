@@ -13,28 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.openlobby.logging
 
-package com.openlobby.login
-
-import com.openlobby.listener.ListenerObserver
-import com.openlobby.listener.ListenerService
 import org.apache.felix.dm.DependencyActivatorBase
 import org.apache.felix.dm.DependencyManager
 import org.osgi.framework.BundleContext
+import org.osgi.service.log.LogReaderService
 import org.osgi.service.log.LogService
 
 class Activator extends DependencyActivatorBase {  
   
   def init(ctx : BundleContext, manager : DependencyManager) {
-    manager.add(createComponent.setInterface(Array(classOf[LoginService].getName, classOf[ListenerObserver].getName), null)
-                .setImplementation(classOf[LoginServiceImpl])
-                
-                .add(createServiceDependency.setService(classOf[ListenerService])
-                     .setRequired(true)
-      )
+    manager.add(createComponent
+                .setImplementation(classOf[LoggingServiceImpl])
+                .setInterface(classOf[LoggingService].getName, null)
+    
                 .add(createServiceDependency
                      .setService(classOf[LogService])
-                     .setRequired(false))
+                     .setRequired(false)
+      )
+                .add(createServiceDependency
+                     .setService(classOf[LogReaderService])
+                     .setRequired(false)
+                     .setCallbacks("added", "removed")
+      )
     )
   }
   

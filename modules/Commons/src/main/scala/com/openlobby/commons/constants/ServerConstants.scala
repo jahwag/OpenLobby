@@ -1,6 +1,5 @@
 /*
- * Copyright Error: on line 4, column 29 in Templates/Licenses/license-apache20.txt
- Expecting a date here, found: 2012-feb-03 Jahziah Wagner <jahziah[dot]wagner[at]gmail[dot]com>.
+ * Copyright 2012 Jahziah Wagner <jahziah[dot]wagner[at]gmail[dot]com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +14,12 @@
  * limitations under the License.
  */
 
-package com.openlobby.listener
+package com.openlobby.constants.commons
 
-class ServerCommand {
+trait ServerConstants {
+  private final val SPRING_SERVER = "lobby.springrts.com"
+  private final val SPRING_SERVER_PORT = 8200
 
+  def getLobbyServer:String=SPRING_SERVER
+  def getLobbyServerPort:Int=SPRING_SERVER_PORT
 }

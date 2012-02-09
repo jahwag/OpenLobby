@@ -4,3 +4,6 @@
 /modules/Login/target/
 /modules/Distribution/target/
 /modules/Listener/target/
+/modules/OpenLobby-Commons/target/
+/modules/Commons/target/
+/modules/Logging/target/

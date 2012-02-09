@@ -14,19 +14,26 @@
  * limitations under the License.
  */
 
-package com.openlobby.listener
+package com.openlobby.commons.thread
 
-import com.openlobby.commons.thread.ServiceThread
-
-/**
- * Listener provides server messages to listeners only through the 
- * whiteboard-pattern.
- * 
- * For a background on the whiteboard-pattern, 
- * see http://www.osgi.org/wiki/uploads/Links/whiteboard.pdf
- */
-trait ListenerService extends ServiceThread {
+trait ServiceThread {
+  /**
+   * Starts the thread associated with the service.
+   */
+  def start
   
-
-  
+  /**
+   * Stops the thread associated with the service.
+   * 
+   * Note that there may be some delay between the call and when the thread is 
+   * actually stopped.
+   * 
+   * @Override overrides deprecated method in java.lang.Thread
+   */
+  def destroy
+  /**
+   * Returns the current state of the thread associated with the service.
+   * @return true if running, false is stopped or stopping.
+   */
+  def getRunState:Boolean
 }

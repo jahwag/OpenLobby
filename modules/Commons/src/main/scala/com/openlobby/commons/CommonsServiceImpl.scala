@@ -14,19 +14,11 @@
  * limitations under the License.
  */
 
-package com.openlobby.listener
+package com.openlobby.commons
 
-import com.openlobby.commons.thread.ServiceThread
+import com.openlobby.constants.commons.ServerConstants
+import org.osgi.service.log.LogService
 
-/**
- * Listener provides server messages to listeners only through the 
- * whiteboard-pattern.
- * 
- * For a background on the whiteboard-pattern, 
- * see http://www.osgi.org/wiki/uploads/Links/whiteboard.pdf
- */
-trait ListenerService extends ServiceThread {
-  
-
-  
+class CommonsServiceImpl extends CommonsService with ServerConstants {
+  @volatile private var logService : LogService = _
 }

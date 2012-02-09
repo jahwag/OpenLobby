@@ -19,9 +19,14 @@ package com.openlobby.launcher
 object App {
 
   def main(args: Array[String]) {
+    Runtime.getRuntime.addShutdownHook(
+      new Thread {
+        override def run {
+          println("Stopping OpenLobby.")
+        }})
+    
     println("Starting OpenLobby.")
     new Launcher
-    println("Stopping OpenLobby.")
   }
   
 }

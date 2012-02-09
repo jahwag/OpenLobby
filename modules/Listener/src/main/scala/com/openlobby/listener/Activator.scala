@@ -15,18 +15,40 @@
  */
 package com.openlobby.listener
 
+import com.openlobby.commons.CommonsService
+import com.openlobby.constants.commons.ServerConstants
 import org.apache.felix.dm.DependencyActivatorBase
 import org.apache.felix.dm.DependencyManager
 import org.osgi.framework.BundleContext
+import org.osgi.service.log.LogService
 
 class Activator extends DependencyActivatorBase {  
   
   def init(ctx : BundleContext, manager : DependencyManager) {
-    
+    manager.add(createComponent
+                .setImplementation(classOf[ListenerServiceImpl])
+                .setInterface(classOf[ListenerService].getName, null)
+                
+                .add(createServiceDependency
+                     .setService(classOf[ServerConstants])
+                     .setRequired(true)
+      )
+                .add(createServiceDependency
+                     .setService(classOf[CommonsService])
+                     .setRequired(true)
+      )
+                .add(createServiceDependency
+                     .setService(classOf[ListenerObserver])
+                     .setRequired(false)
+                     .setCallbacks("added", "removed")  // callback used for 1:N relationship
+      )
+                .add(createServiceDependency
+                     .setService(classOf[LogService])
+                     .setRequired(false))
+    )
   }
   
   def destroy(ctx : BundleContext, manager : DependencyManager) {
-    
   }
   
 }

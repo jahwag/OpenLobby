@@ -10,8 +10,8 @@
     </parent>
     
     <packaging>bundle</packaging>
-    <artifactId>listener</artifactId>
-    <name>Listener OSGi Bundle</name>
+    <artifactId>openlobby-listener</artifactId>
+    <name>OpenLobby-Listener OSGi Bundle</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -34,6 +34,16 @@
             <artifactId>org.apache.felix.dependencymanager</artifactId>
             <version>3.0.0</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.log</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>openlobby-commons</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

@@ -14,19 +14,12 @@
  * limitations under the License.
  */
 
-package com.openlobby.listener
+package com.openlobby.commons.thread
 
-import com.openlobby.commons.thread.ServiceThread
-
-/**
- * Listener provides server messages to listeners only through the 
- * whiteboard-pattern.
- * 
- * For a background on the whiteboard-pattern, 
- * see http://www.osgi.org/wiki/uploads/Links/whiteboard.pdf
- */
-trait ListenerService extends ServiceThread {
+class ServiceThreadImpl extends Thread with ServiceThread {
+  private var runState : Boolean = true
+   
+  override def destroy { runState = false}
   
-
-  
+  def getRunState:Boolean = runState
 }

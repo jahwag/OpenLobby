@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-package com.openlobby.listener
+package com.openlobby.login
 
-import com.openlobby.commons.thread.ServiceThread
+import org.osgi.service.log.LogService
 
-/**
- * Listener provides server messages to listeners only through the 
- * whiteboard-pattern.
- * 
- * For a background on the whiteboard-pattern, 
- * see http://www.osgi.org/wiki/uploads/Links/whiteboard.pdf
- */
-trait ListenerService extends ServiceThread {
+class LoginServiceImpl extends LoginService {
+  @volatile private var logService : LogService = _
   
-
-  
+  def update(cmd : String) {
+    // TODO handle cmds
+  }
 }

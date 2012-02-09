@@ -16,29 +16,80 @@
 
 package com.openlobby.listener
 
+import com.openlobby.commons.CommonsService
+import com.openlobby.commons.thread.ServiceThreadImpl
+import com.openlobby.constants.commons.ServerConstants
+import java.io.BufferedReader
+import java.io.BufferedWriter
+import java.io.IOException
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
+import java.net.Socket
 import java.util.LinkedList
+import org.osgi.service.log.LogService
 
-class ListenerServiceImpl extends Thread with ListenerService {
-
-  private final def observers = new LinkedList[ListenerObserver]
-  println("Listener started.")
+/**
+ * Thread started by OSGi (reflection).
+ */
+class ListenerServiceImpl extends ServiceThreadImpl with ListenerService {
   
-  /**
-   * Register a ListenerObserver.
-   * @param caller receives server messages.
-   */
-  def registerObserver(caller : ListenerObserver) {
-    observers.add(caller)
+  @volatile private var serverConstants : ServerConstants =_
+  @volatile private var commonsService : CommonsService =_
+  @volatile private var logService : LogService = _
+  private var listenerObservers = new LinkedList[ListenerObserver]
+  
+  def added(obs : ListenerObserver) {
+    logService.log(LogService.LOG_INFO, "Added listener " + obs +".")
+    listenerObservers add obs
+  }
+  
+  def removed(obs : ListenerObserver) {
+    logService.log(LogService.LOG_INFO, "Removed listener " + obs +".")
+    listenerObservers remove obs
+  }
+  
+  override def run {
+    logService.log(LogService.LOG_INFO, "Thread started.")
+
+    val (in, os) = connect
+    
+    try {
+      while(getRunState) {
+        val msg = listen(in)
+        update(msg)
+      }
+    } catch {
+      case e: IOException => logService.log(LogService.LOG_ERROR, e.getMessage) // TODO notify listeners then stop
+    }
+  }
+  
+  private def connect:(BufferedReader, BufferedWriter)= {
+    val socket = new Socket(serverConstants.getLobbyServer, serverConstants.getLobbyServerPort)
+    
+    return (new BufferedReader(new InputStreamReader(socket.getInputStream)), 
+            new BufferedWriter(new OutputStreamWriter(socket.getOutputStream)))
+  }
+  
+  @throws(classOf[IOException])
+  private def listen(in : BufferedReader):String= {
+    if(in == null) {
+      throw new IOException("No connection to remote server.");
+    }
+    
+    return in.readLine
   }
   
   /**
-   * Remove ListenerObserver. 
-   * 
-   * This is should be done when caller bundle state is no longer ACTIVE 
-   * to prevent NullPointerException.
-   * @param caller receives server messages.
+   * Notifies listeners of message.
    */
-  def unregisterObserver(caller : ListenerObserver) {
-    observers.remove(caller)
+  private def update(msg : String) {
+    logService.log(LogService.LOG_DEBUG, msg)
+    
+    val it = listenerObservers.iterator
+    while(it.hasNext) {
+      val obs : ListenerObserver = it.next
+      obs.update(msg)
+    }
   }
+  
 }

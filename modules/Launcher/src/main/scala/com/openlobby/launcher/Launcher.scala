@@ -23,12 +23,21 @@ import java.util.LinkedList
 import java.util.ServiceLoader
 import org.osgi.framework.Bundle
 import org.osgi.framework.BundleContext
+import org.osgi.framework.BundleException
 import org.osgi.framework.launch.FrameworkFactory
 
-class Launcher {
+class Launcher{
   val modulesDir = "module/"
   val context : BundleContext = startFramework
-  launchBundles
+  init
+  
+  def init {
+    try {
+      launchBundles
+    } catch{
+      case e : BundleException => println(e.getMessage) // TODO error logging
+    }
+  }
   
   private def startFramework:BundleContext= {
     val frameworkFactory = ServiceLoader.load(classOf[FrameworkFactory]).iterator().next();
@@ -38,8 +47,17 @@ class Launcher {
     return framework.getBundleContext
   }
   
+  @throws(classOf[BundleException])
   private def launchBundles {
-    val list = List(installBundle("scala-library"), installBundle("listener"))
+    val list = List(installBundle("org.osgi.compendium"),
+                    installBundle("org.apache.felix.dependencymanager"),
+                    installBundle("org.apache.felix.log"), 
+                    installBundle("scala-library"), 
+                    installBundle("openlobby-logging"), 
+                    installBundle("openlobby-commons"), 
+                    installBundle("openlobby-listener"),
+                    installBundle("openlobby-login")
+    )
     
     list.foreach {bundle => bundle.start}
   }
@@ -48,6 +66,7 @@ class Launcher {
    * Locate the most recent version of a bundle and install it.
    * @param artifactId artifactId of bundle.
    */
+  @throws(classOf[BundleException])
   private def installBundle(artifactId: String):Bundle = {
     val files = new File(modulesDir).listFiles
     
@@ -57,10 +76,34 @@ class Launcher {
       if(file.getName.contains(artifactId)) versions.add(file)
     }
     
-    Collections.sort(versions)
+    if(versions.isEmpty) {
+      throw new BundleException("[ERROR]: Unable to locate artifactId: " + artifactId)
+    }
     
-    println("Installed bundle: " + versions.getFirst +".")
+    Collections.sort(versions)
     
     return context.installBundle("file:" + versions.getFirst)
   }
+  
+  /*
+  override def serviceChanged(event : ServiceEvent) {
+    val name = event.getServiceReference
+    
+    event.getType match {
+      case ServiceEvent.MODIFIED => println("Modified service: " + name)
+      case ServiceEvent.REGISTERED => println("Registered service: " + name)
+      case ServiceEvent.UNREGISTERING => println("Unregistered service: " + name)
+    }
+  }*/
+  /*
+  override def bundleChanged(event : BundleEvent) {
+    val name = event.getBundle.getSymbolicName
+    
+    event.getType match {
+      case BundleEvent.INSTALLED => println("Installed bundle: " + name)
+      case BundleEvent.STOPPING => println("Stopping bundle: " + name)
+      case BundleEvent.UPDATED => println("Updated bundle: " + name)
+      case default => // do nothing
+    }
+  }*/
 }

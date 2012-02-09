@@ -9,9 +9,13 @@
         <version>0.1-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <packaging>pom</packaging>
-    <artifactId>distribution</artifactId>
-    <name>Distribution</name>
+    <artifactId>openlobby-distribution</artifactId>
+    <name>OpenLobby-Distribution</name>
         
     <dependencies>
         <dependency>

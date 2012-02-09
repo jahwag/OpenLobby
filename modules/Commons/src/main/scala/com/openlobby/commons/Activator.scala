@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.openlobby.commons
 
-package com.openlobby.login
-
-import com.openlobby.listener.ListenerObserver
-import com.openlobby.listener.ListenerService
+import com.openlobby.constants.commons.ServerConstants
 import org.apache.felix.dm.DependencyActivatorBase
 import org.apache.felix.dm.DependencyManager
 import org.osgi.framework.BundleContext
@@ -26,20 +24,22 @@ import org.osgi.service.log.LogService
 class Activator extends DependencyActivatorBase {  
   
   def init(ctx : BundleContext, manager : DependencyManager) {
-    manager.add(createComponent.setInterface(Array(classOf[LoginService].getName, classOf[ListenerObserver].getName), null)
-                .setImplementation(classOf[LoginServiceImpl])
-                
-                .add(createServiceDependency.setService(classOf[ListenerService])
-                     .setRequired(true)
-      )
+    
+    val arr = Array(classOf[CommonsService].getName, 
+                    classOf[ServerConstants].getName)
+    
+    manager.add(createComponent.setInterface(arr, null)
+                .setImplementation(classOf[CommonsServiceImpl])
+    
                 .add(createServiceDependency
                      .setService(classOf[LogService])
-                     .setRequired(false))
+                     .setRequired(false)
+      )
     )
+    
   }
   
   def destroy(ctx : BundleContext, manager : DependencyManager) {
-    
   }
   
 }

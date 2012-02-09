@@ -8,12 +8,11 @@
     </parent>
     
     <packaging>jar</packaging>
-    <artifactId>launcher</artifactId>
-    <name>Launcher Standalone</name>
+    <artifactId>openlobby-launcher</artifactId>
+    <name>OpenLobby-Launcher</name>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.mainClass>com.openlobby.launcher.App</project.mainClass>
     </properties>
     
     <dependencies>
@@ -25,6 +24,8 @@
     </dependencies>
     
     <build>
+        <sourceDirectory>src/main/scala</sourceDirectory>
+        <testSourceDirectory>src/test/scala</testSourceDirectory>
         <plugins>   
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -38,7 +39,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <workingDirectory>./../Distribution/target/distribution-${project.version}-bin/distribution-${project.version}/</workingDirectory>
+                    <workingDirectory>./../Distribution/target/openlobby-distribution-${project.version}-bin/openlobby-distribution-${project.version}/</workingDirectory>
                     <executable>java</executable>
                     <arguments>
                         <argument>-jar</argument>

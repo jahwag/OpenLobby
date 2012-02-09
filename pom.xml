@@ -87,6 +87,18 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.osgi.compendium</artifactId>
+            <version>1.4.0</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.log</artifactId>
+            <version>1.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>
             <version>4.3.0</version>
@@ -253,7 +265,8 @@
     </build>
     
     <modules>
-        <module>modules/Core</module>
+        <module>modules/Commons</module>
+        <module>modules/Logging</module>
         <module>modules/Listener</module>
         <module>modules/Login</module>
         <module>modules/Launcher</module>

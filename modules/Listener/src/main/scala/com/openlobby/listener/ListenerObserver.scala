@@ -26,6 +26,6 @@ trait ListenerObserver {
    * Notifies ListenerObserver of a server command.
    * @cmd command in question.
    */
-  def notify(cmd: ServerCommand)
+  def update(cmd: String)
 
 }

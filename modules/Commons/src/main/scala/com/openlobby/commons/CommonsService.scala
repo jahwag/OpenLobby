@@ -14,20 +14,7 @@
  * limitations under the License.
  */
 
-package com.openlobby.core
+package com.openlobby.commons
 
-import org.apache.felix.dm.DependencyActivatorBase
-import org.apache.felix.dm.DependencyManager
-import org.osgi.framework.BundleContext
-
-class Activator extends DependencyActivatorBase {  
-  
-  def init(ctx : BundleContext, manager : DependencyManager) {
-    
-  }
-  
-  def destroy(ctx : BundleContext, manager : DependencyManager) {
-    
-  }
-  
+trait CommonsService {
 }

@@ -14,19 +14,10 @@
  * limitations under the License.
  */
 
-package com.openlobby.listener
+package com.openlobby.login
 
-import com.openlobby.commons.thread.ServiceThread
+import com.openlobby.listener.ListenerObserver
 
-/**
- * Listener provides server messages to listeners only through the 
- * whiteboard-pattern.
- * 
- * For a background on the whiteboard-pattern, 
- * see http://www.osgi.org/wiki/uploads/Links/whiteboard.pdf
- */
-trait ListenerService extends ServiceThread {
-  
+trait LoginService extends ListenerObserver {
 
-  
 }
