@@ -29,9 +29,10 @@
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.3</version>
                 <executions>
                     <execution>
-                        <id>distro-assembly</id>
+                        <id>bundle-project-sources</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
@@ -39,6 +40,7 @@
                         <configuration>
                             <descriptors>
                                 <descriptor>src/assemble/bin.xml</descriptor>
+                                <descriptor>src/assemble/assembly.xml</descriptor>
                             </descriptors>
                         </configuration>
                     </execution>
