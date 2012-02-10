@@ -59,6 +59,7 @@ class Launcher{
                    // installBundle("jna-osgi"), 
                     installBundle("unitsync"), 
                     installBundle("openlobby-login"),
+                    installBundle("openlobby-messenger"),
                     installBundle("openlobby-listener")
     )
     

@@ -28,6 +28,11 @@
             <artifactId>unitsync</artifactId>
             <version>0.3.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>openlobby-messenger</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     
     <build>

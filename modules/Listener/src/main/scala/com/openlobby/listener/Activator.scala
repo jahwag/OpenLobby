@@ -17,6 +17,7 @@ package com.openlobby.listener
 
 import com.openlobby.commons.CommonsService
 import com.openlobby.constants.commons.ServerConstants
+import com.openlobby.messenger.MessengerService
 import org.apache.felix.dm.DependencyActivatorBase
 import org.apache.felix.dm.DependencyManager
 import org.osgi.framework.BundleContext
@@ -44,7 +45,13 @@ class Activator extends DependencyActivatorBase {
       )
                 .add(createServiceDependency
                      .setService(classOf[LogService])
-                     .setRequired(false))
+                     .setRequired(false)
+      )
+                .add(createServiceDependency
+                     .setService(classOf[MessengerService])
+                     .setRequired(false)
+                     .setCallbacks("added", "removed") 
+      )
     )
   }
   

@@ -16,12 +16,16 @@
 
 package com.openlobby.login
 
+import com.openlobby.messenger.MessengerService
 import com.springrts.unitsync.Unitsync
+import java.net.InetAddress
 import org.osgi.service.log.LogService
 
 class LoginServiceImpl extends LoginService {
   @volatile private var logService : LogService = _
   @volatile private var unitsync : Unitsync = _
+  @volatile private var messengerService : MessengerService = _
+  private var onlinePlayEnabled = true
   
   def update(cmd: String, args : Array[String]) {
     cmd match {
@@ -30,7 +34,7 @@ class LoginServiceImpl extends LoginService {
     }
   }
   
-  def doTASServer(serverVersion : String, springVer : String, udpPort : String, serverMode : String) {
+  private def doTASServer(serverVersion : String, springVer : String, udpPort : String, serverMode : String) {
     val installVer = unitsync.getSpringVersion
     
     val springVerMajor = if(springVer.split(".").length > 0) springVer.split(".")(0) else springVer
@@ -46,8 +50,26 @@ class LoginServiceImpl extends LoginService {
     } else {
       logService.log(LogService.LOG_WARNING, "An official Spring major version update is available (mandatory for online play): " + springVer + ".")
       // Disable online play
+      onlinePlayEnabled = false
       // TODO notify update consumers
     }
-    
   }
+  
+  def login(username : String, password : String, compFlags : String = "a b sp") {
+    val cpu = Runtime.getRuntime().availableProcessors // no. of cores, a compromise due to lack of cpu frequency from java api, though probably more relevant today anyway
+    val localIP = InetAddress.getLocalHost().getAddress.toString // for NAT hole-punching
+    val lobbyNameAndVersion = "OpenLobby"
+    val userId = Math.abs(username.hashCode)
+    
+    messengerService.send("LOGIN "+username+" "+password+" "+cpu+" "+localIP+" "+lobbyNameAndVersion+" "+userId+" "+compFlags) // send login command
+  }
+  
+  def register(username : String, password : String) = messengerService.send("REGISTER " + username + " " + password )
+  
+  def renameAccount(username : String) = messengerService.send("RENAME" + username)
+  
+  def changePassword(oldPassword : String, newPassword : String) = messengerService.send("CHANGEPASSWORD" + oldPassword + " " + newPassword)
+  
+  def confirmAgreement = messengerService.send("CONFIRMAGREEMENT")
+  
 }

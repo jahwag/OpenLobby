@@ -19,6 +19,7 @@ package com.openlobby.listener
 import com.openlobby.commons.CommonsService
 import com.openlobby.commons.thread.ServiceThreadImpl
 import com.openlobby.constants.commons.ServerConstants
+import com.openlobby.messenger.MessengerService
 import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.IOException
@@ -36,22 +37,36 @@ class ListenerServiceImpl extends ServiceThreadImpl with ListenerService {
   @volatile private var serverConstants : ServerConstants =_
   @volatile private var commonsService : CommonsService =_
   @volatile private var logService : LogService = _
+  @volatile private var messengerService : MessengerService = _
   private var listenerObservers = new LinkedList[ListenerObserver]
+  private var os : BufferedWriter = _
   
   def added(obs : ListenerObserver) {
-    logService.log(LogService.LOG_INFO, "Added listener " + obs +".")
+    logService.log(LogService.LOG_INFO, "Added listener observer: " + obs +".")
     listenerObservers add obs
   }
   
   def removed(obs : ListenerObserver) {
-    logService.log(LogService.LOG_INFO, "Removed listener " + obs +".")
+    logService.log(LogService.LOG_INFO, "Removed listener observer: " + obs +".")
     listenerObservers remove obs
+  }
+  
+  def added(messenger : MessengerService) {
+    logService.log(LogService.LOG_INFO, "Primed messenger service: " + messenger +".")
+    
+    if(os != null) {
+      messenger.setOutputStream(os)
+    }
+  }
+  
+  def removed(messenger : MessengerService) {
   }
   
   override def run {
     logService.log(LogService.LOG_INFO, "Thread started.")
 
     val (in, os) = connect
+    this.os = os
     
     try {
       while(getRunState) {

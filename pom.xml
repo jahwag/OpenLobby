@@ -217,6 +217,7 @@
         <module>modules/Commons</module>
         <module>modules/Logging</module>
         <module>modules/Listener</module>
+        <module>modules/Messenger</module>
         <module>modules/Login</module>
         <module>modules/Launcher</module>
         <module>modules/Distribution</module>
