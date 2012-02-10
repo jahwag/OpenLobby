@@ -18,6 +18,7 @@ package com.openlobby.login
 
 import com.openlobby.listener.ListenerObserver
 import com.openlobby.listener.ListenerService
+import com.springrts.unitsync.Unitsync
 import org.apache.felix.dm.DependencyActivatorBase
 import org.apache.felix.dm.DependencyManager
 import org.osgi.framework.BundleContext
@@ -35,6 +36,11 @@ class Activator extends DependencyActivatorBase {
                 .add(createServiceDependency
                      .setService(classOf[LogService])
                      .setRequired(false))
+                
+                add(createServiceDependency
+                    .setService(classOf[Unitsync])
+                    .setRequired(false)
+      )
     )
   }
   

@@ -16,6 +16,8 @@
 
 package com.openlobby.launcher
 
+import java.util.prefs.Preferences
+
 object App {
 
   def main(args: Array[String]) {

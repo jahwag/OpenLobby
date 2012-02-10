@@ -85,10 +85,12 @@ class ListenerServiceImpl extends ServiceThreadImpl with ListenerService {
   private def update(msg : String) {
     logService.log(LogService.LOG_DEBUG, msg)
     
+    val args = msg.split(" ") // split around spaces
+    val cmd = args.head
     val it = listenerObservers.iterator
     while(it.hasNext) {
       val obs : ListenerObserver = it.next
-      obs.update(msg)
+      obs.update(cmd, args)
     }
   }
   

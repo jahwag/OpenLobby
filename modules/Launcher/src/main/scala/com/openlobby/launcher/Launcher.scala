@@ -33,6 +33,7 @@ class Launcher{
   
   def init {
     try {
+      System.setProperty("jna.library.path", "C:\\Program Files (x86)\\Spring")
       launchBundles
     } catch{
       case e : BundleException => println(e.getMessage) // TODO error logging
@@ -55,8 +56,10 @@ class Launcher{
                     installBundle("scala-library"), 
                     installBundle("openlobby-logging"), 
                     installBundle("openlobby-commons"), 
-                    installBundle("openlobby-listener"),
-                    installBundle("openlobby-login")
+                   // installBundle("jna-osgi"), 
+                    installBundle("unitsync"), 
+                    installBundle("openlobby-login"),
+                    installBundle("openlobby-listener")
     )
     
     list.foreach {bundle => bundle.start}

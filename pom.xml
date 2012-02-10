@@ -29,7 +29,6 @@
 
     <developers>
         <developer>
-            <id>jahwag</id>
             <name>Jahziah Wagner</name>
             <email>jahziah.wagner@gmail.com</email>
             <url>www.jahziah.com</url>
@@ -50,10 +49,6 @@
     </scm>
 
     <repositories>
-        <repository>
-            <id>junitsync repo</id>
-            <url>https://github.com/spring/JUnitSync</url>
-        </repository>
         <repository>
             <id>scala-tools.org</id>
             <name>Scala-tools Maven2 Repository</name>
@@ -104,26 +99,6 @@
             <version>4.3.0</version>
             <type>jar</type>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.springrts</groupId>
-            <artifactId>unitsync</artifactId>
-            <version>0.3-SNAPSHOT</version>
-            <scope>runtime</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>jna-jnaerator</artifactId>
-                    <groupId>com.jnaerator</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>jnaerator-runtime</artifactId>
-                    <groupId>com.jnaerator</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>jna</artifactId>
-                    <groupId>net.java.dev.jna</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.weiglewilczek.scala-lang-osgi</groupId>
