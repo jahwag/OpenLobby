@@ -16,9 +16,9 @@
 
 package com.openlobby.login
 
-import com.openlobby.listener.ListenerObserver
-import com.openlobby.listener.ListenerService
-import com.openlobby.messenger.MessengerService
+import com.openlobby.communication.ListenerObserver
+import com.openlobby.communication.ListenerService
+import com.openlobby.communication.MessengerService
 import com.springrts.unitsync.Unitsync
 import org.apache.felix.dm.DependencyActivatorBase
 import org.apache.felix.dm.DependencyManager
@@ -28,7 +28,8 @@ import org.osgi.service.log.LogService
 class Activator extends DependencyActivatorBase {  
   
   def init(ctx : BundleContext, manager : DependencyManager) {
-    manager.add(createComponent.setInterface(Array(classOf[LoginService].getName, classOf[ListenerObserver].getName), null)
+    manager.add(createComponent
+                .setInterface(Array(classOf[LoginService].getName, classOf[ListenerObserver].getName), null)
                 .setImplementation(classOf[LoginServiceImpl])
                 
                 .add(createServiceDependency.setService(classOf[ListenerService])
@@ -36,11 +37,12 @@ class Activator extends DependencyActivatorBase {
       )
                 .add(createServiceDependency
                      .setService(classOf[LogService])
-                     .setRequired(false))
+                     .setRequired(false)
+      )
                 
                 .add(createServiceDependency
-                    .setService(classOf[Unitsync])
-                    .setRequired(false)
+                     .setService(classOf[Unitsync])
+                     .setRequired(false)
       )
                 .add(createServiceDependency
                      .setService(classOf[MessengerService])

@@ -16,8 +16,6 @@
 
 package com.openlobby.launcher
 
-import java.util.prefs.Preferences
-
 object App {
 
   def main(args: Array[String]) {
@@ -28,7 +26,7 @@ object App {
         }})
     
     println("Starting OpenLobby.")
-    new Launcher
+    new Launcher("module/")
   }
   
 }

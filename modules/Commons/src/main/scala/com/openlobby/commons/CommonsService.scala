@@ -17,4 +17,10 @@
 package com.openlobby.commons
 
 trait CommonsService {
+  
+  /**
+   * Start scripting engine.
+   */
+  def startScripting
+  
 }

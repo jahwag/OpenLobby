@@ -15,19 +15,215 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     
+   
     <dependencies>
+	
         <dependency>
             <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.framework</artifactId>
-            <version>4.0.2</version>
-            <scope>compile</scope>
+            <artifactId>org.apache.felix.dependencymanager</artifactId>
+            <version>3.0.0</version>
         </dependency>
+      
     </dependencies>
+    
     
     <build>
         <sourceDirectory>src/main/scala</sourceDirectory>
         <testSourceDirectory>src/test/scala</testSourceDirectory>
-        <plugins>   
+        
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <id>bundle-project-sources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/assemble/assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                
+                                <artifactItem>
+                                    <groupId>com.openlobby</groupId>
+                                    <artifactId>openlobby-battle</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${basedir}/module</outputDirectory>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                                
+                                <artifactItem>
+                                    <groupId>com.openlobby</groupId>
+                                    <artifactId>openlobby-chat</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${basedir}/module</outputDirectory>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                                
+                                <artifactItem>
+                                    <groupId>com.openlobby</groupId>
+                                    <artifactId>openlobby-commons</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${basedir}/module</outputDirectory>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                                
+                                <artifactItem>
+                                    <groupId>com.openlobby</groupId>
+                                    <artifactId>openlobby-launcher</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${basedir}/module</outputDirectory>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                                
+                                <artifactItem>
+                                    <groupId>com.openlobby</groupId>
+                                    <artifactId>openlobby-communication</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${basedir}/module</outputDirectory>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                                
+                                <artifactItem>
+                                    <groupId>com.openlobby</groupId>
+                                    <artifactId>openlobby-logging</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${basedir}/module</outputDirectory>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                                
+                                <artifactItem>
+                                    <groupId>com.openlobby</groupId>
+                                    <artifactId>openlobby-login</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${basedir}/module</outputDirectory>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                                
+                                <artifactItem>
+                                    <groupId>com.openlobby</groupId>
+                                    <artifactId>openlobby-io</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${basedir}/module</outputDirectory>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                                
+                                <!-- non-modules -->
+                                <artifactItem>
+                                    <groupId>org.codehaus.groovy</groupId>
+                                    <artifactId>groovy-all</artifactId>
+                                    <version>2.0.0-beta-2</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${basedir}/module</outputDirectory>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                                
+                                <artifactItem>
+                                    <groupId>com.weiglewilczek.scala-lang-osgi</groupId>
+                                    <artifactId>scala-library</artifactId>
+                                    <version>2.9.1</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${basedir}/module</outputDirectory>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                                
+                                <artifactItem>
+                                    <groupId>org.apache.felix</groupId>
+                                    <artifactId>org.apache.felix.framework</artifactId>
+                                    <version>4.0.2</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${basedir}/module</outputDirectory>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                                
+                                <artifactItem>
+                                    <groupId>org.apache.felix</groupId>
+                                    <artifactId>org.apache.felix.log</artifactId>
+                                    <version>1.0.1</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${basedir}/module</outputDirectory>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                                
+                                <artifactItem>
+                                    <groupId>org.apache.felix</groupId>
+                                    <artifactId>org.apache.felix.dependencymanager</artifactId>
+                                    <version>3.0.0</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${basedir}/module</outputDirectory>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                                
+                                <artifactItem>
+                                    <groupId>com.springrts</groupId>
+                                    <artifactId>unitsync</artifactId>
+                                    <version>0.3.1-SNAPSHOT</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${basedir}/module</outputDirectory>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                                
+                                <artifactItem>
+                                    <groupId>org.osgi</groupId>
+                                    <artifactId>org.osgi.compendium</artifactId>
+                                    <version>4.1.0</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${basedir}/module</outputDirectory>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                                
+                                <artifactItem>
+                                    <groupId>org.apache.felix</groupId>
+                                    <artifactId>org.osgi.compendium</artifactId>
+                                    <version>1.4.0</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${basedir}/module</outputDirectory>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                            
+                             <!-- <artifactItem>
+                                    <groupId>org.glassfish.external</groupId>
+                                    <artifactId>antlr-repackaged</artifactId>
+                                    <version>3.2-b06</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${basedir}/module</outputDirectory>
+                                    <overWrite>true</overWrite>
+                                </artifactItem> -->
+                                
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -40,7 +236,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <workingDirectory>./../Distribution/target/openlobby-distribution-${project.version}-bin/openlobby-distribution-${project.version}/</workingDirectory>
+                    <workingDirectory>./</workingDirectory>
                     <executable>java</executable>
                     <arguments>
                         <argument>-jar</argument>
@@ -48,6 +244,7 @@
                     </arguments>
                 </configuration>
             </plugin>
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -62,6 +259,8 @@
                     </archive>
                 </configuration>
             </plugin> 
+            
         </plugins>
     </build>
+    
 </project>

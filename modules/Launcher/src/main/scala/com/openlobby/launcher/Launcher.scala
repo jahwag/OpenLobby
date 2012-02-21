@@ -16,98 +16,34 @@
 
 package com.openlobby.launcher
 
-import java.io.File
-import java.util.Collections
 import java.util.HashMap
-import java.util.LinkedList
 import java.util.ServiceLoader
-import org.osgi.framework.Bundle
 import org.osgi.framework.BundleContext
 import org.osgi.framework.BundleException
 import org.osgi.framework.launch.FrameworkFactory
 
-class Launcher{
-  val modulesDir = "module/"
+class Launcher(modulesDir : String) {
   val context : BundleContext = startFramework
+  val launcher = new BundleLauncher(modulesDir, context)
   init
+  
+  def getContext:BundleContext = context
   
   def init {
     try {
-      System.setProperty("jna.library.path", "C:\\Program Files (x86)\\Spring")
-      launchBundles
+      launcher.launchBundles
     } catch{
-      case e : BundleException => println(e.getMessage) // TODO error logging
+      case e : BundleException => e.printStackTrace
     }
   }
   
   private def startFramework:BundleContext= {
     val frameworkFactory = ServiceLoader.load(classOf[FrameworkFactory]).iterator().next();
     val config = new HashMap[String, String];
+    config.put("org.osgi.framework.storage.clean", "onFirstInit")
     val framework = frameworkFactory.newFramework(config);
     framework.start();
     return framework.getBundleContext
   }
   
-  @throws(classOf[BundleException])
-  private def launchBundles {
-    val list = List(installBundle("org.osgi.compendium"),
-                    installBundle("org.apache.felix.dependencymanager"),
-                    installBundle("org.apache.felix.log"), 
-                    installBundle("scala-library"), 
-                    installBundle("openlobby-logging"), 
-                    installBundle("openlobby-commons"), 
-                   // installBundle("jna-osgi"), 
-                    installBundle("unitsync"), 
-                    installBundle("openlobby-login"),
-                    installBundle("openlobby-messenger"),
-                    installBundle("openlobby-listener")
-    )
-    
-    list.foreach {bundle => bundle.start}
-  }
-  
-  /**
-   * Locate the most recent version of a bundle and install it.
-   * @param artifactId artifactId of bundle.
-   */
-  @throws(classOf[BundleException])
-  private def installBundle(artifactId: String):Bundle = {
-    val files = new File(modulesDir).listFiles
-    
-    val versions = new LinkedList[File]
-    
-    files.foreach { file =>
-      if(file.getName.contains(artifactId)) versions.add(file)
-    }
-    
-    if(versions.isEmpty) {
-      throw new BundleException("[ERROR]: Unable to locate artifactId: " + artifactId)
-    }
-    
-    Collections.sort(versions)
-    
-    return context.installBundle("file:" + versions.getFirst)
-  }
-  
-  /*
-  override def serviceChanged(event : ServiceEvent) {
-    val name = event.getServiceReference
-    
-    event.getType match {
-      case ServiceEvent.MODIFIED => println("Modified service: " + name)
-      case ServiceEvent.REGISTERED => println("Registered service: " + name)
-      case ServiceEvent.UNREGISTERING => println("Unregistered service: " + name)
-    }
-  }*/
-  /*
-  override def bundleChanged(event : BundleEvent) {
-    val name = event.getBundle.getSymbolicName
-    
-    event.getType match {
-      case BundleEvent.INSTALLED => println("Installed bundle: " + name)
-      case BundleEvent.STOPPING => println("Stopping bundle: " + name)
-      case BundleEvent.UPDATED => println("Updated bundle: " + name)
-      case default => // do nothing
-    }
-  }*/
 }

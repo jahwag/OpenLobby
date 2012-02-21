@@ -16,52 +16,54 @@
 
 package com.openlobby.login
 
-import com.openlobby.messenger.MessengerService
+import biz.source_code.base64Coder.Base64Coder
+import com.openlobby.communication.ListenerObserver
+import com.openlobby.communication.MessengerService
 import com.springrts.unitsync.Unitsync
 import java.net.InetAddress
+import java.security.MessageDigest
 import org.osgi.service.log.LogService
 
-class LoginServiceImpl extends LoginService {
-  @volatile private var logService : LogService = _
-  @volatile private var unitsync : Unitsync = _
-  @volatile private var messengerService : MessengerService = _
-  private var onlinePlayEnabled = true
+class LoginServiceImpl extends LoginService with ListenerObserver {
+  @volatile var logService : LogService = _
+  @volatile var unitsync : Unitsync = _
+  @volatile var messengerService : MessengerService = _
+  private val model = new LoginModel(this)
   
-  def update(cmd: String, args : Array[String]) {
+  def update(cmd: String, args : Array[String], sentences : Array[String]) {
     cmd match {
-      case "TASServer" => doTASServer(args.apply(1), args.apply(2), args.apply(3), args.apply(4))
-      case default => logService.log(LogService.LOG_INFO, "Got unspported command from server: " + cmd +".")
+      case "TASServer" => model.tasServer(args apply(1), args apply(2), args apply(3), args apply(4))
+      case "REGISTRATIONDENIED" => model.registrationDenied( (args slice(1, args length)) mkString(" ") )
+      case "REGISTRATIONACCEPTED" => model.registrationAccepted
+      case "ACCEPTED" => model.accepted
+      case "DENIED" => model.denied( (args slice(1, args length)) mkString(" ") )
+      case "LOGINFOEND" => model.loginInfoEnd
+      case "AGREEMENT" => model.agreement(args apply 1)
+      case "AGREEMENTEND" => model.agreementEnd
+      case default => //logService.log(LogService.LOG_INFO, "Login got unspported command: " + cmd +".")
     }
   }
   
-  private def doTASServer(serverVersion : String, springVer : String, udpPort : String, serverMode : String) {
-    val installVer = unitsync.getSpringVersion
+  def md5Base64(msg : String):String = {
+    val md = MessageDigest.getInstance("MD5")
     
-    val springVerMajor = if(springVer.split(".").length > 0) springVer.split(".")(0) else springVer
-    val springVerMinor = if(springVer.split(".").length > 1) springVer.split(".")(1) else "0"
-    val installVerMajor = if(installVer.split(".").length > 0) installVer.split(".")(0) else installVer
-    val installVerMinor = if(installVer.split(".").length > 1) installVer.split(".")(1) else "0"
+    val bytes = msg.getBytes
     
-    if(springVerMajor.equals(installVerMajor) && !springVerMinor.equals(installVerMinor)) {
-      logService.log(LogService.LOG_WARNING, "An official Spring minor version update is available (not mandatory for online play): " + springVer + ".")
-      // TODO notify update consumers
-    } else if(springVerMajor.equals(installVerMajor)) {
-      logService.log(LogService.LOG_INFO, "Server major version " + springVer + " matches local version " + installVer + ". Online play will be enabled.")
-    } else {
-      logService.log(LogService.LOG_WARNING, "An official Spring major version update is available (mandatory for online play): " + springVer + ".")
-      // Disable online play
-      onlinePlayEnabled = false
-      // TODO notify update consumers
-    }
+    val digest = md.digest(bytes)
+    
+    val str = Base64Coder.encodeLines(digest)
+    
+    return str
   }
   
-  def login(username : String, password : String, compFlags : String = "a b sp") {
+  def login(username : String, password : String, compFlags : String = "b sp") {
     val cpu = Runtime.getRuntime().availableProcessors // no. of cores, a compromise due to lack of cpu frequency from java api, though probably more relevant today anyway
     val localIP = InetAddress.getLocalHost().getAddress.toString // for NAT hole-punching
     val lobbyNameAndVersion = "OpenLobby"
     val userId = Math.abs(username.hashCode)
+    val passwordMD5 = md5Base64(password)
     
-    messengerService.send("LOGIN "+username+" "+password+" "+cpu+" "+localIP+" "+lobbyNameAndVersion+" "+userId+" "+compFlags) // send login command
+    messengerService.send("LOGIN "+username+" "+passwordMD5+" "+cpu+" "+localIP+" "+lobbyNameAndVersion+" "+userId+" "+compFlags) // send login command
   }
   
   def register(username : String, password : String) = messengerService.send("REGISTER " + username + " " + password )

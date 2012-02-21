@@ -16,9 +16,7 @@
 
 package com.openlobby.login
 
-import com.openlobby.listener.ListenerObserver
-
-trait LoginService extends ListenerObserver {
+trait LoginService {
   
   /**
    * Login to the server.

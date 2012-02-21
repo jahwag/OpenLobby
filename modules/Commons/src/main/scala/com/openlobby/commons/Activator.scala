@@ -37,6 +37,10 @@ class Activator extends DependencyActivatorBase {
       )
     )
     
+    val ref = ctx.getServiceReference(classOf[CommonsService].getName)
+    val service : CommonsServiceImpl = ctx.getService(ref).asInstanceOf[CommonsServiceImpl]
+    service.startScripting
+    
   }
   
   def destroy(ctx : BundleContext, manager : DependencyManager) {

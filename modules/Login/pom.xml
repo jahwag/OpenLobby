@@ -18,11 +18,20 @@
     </properties>
     
     <dependencies>
+        
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
+        
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>openlobby-listener</artifactId>
+            <artifactId>openlobby-commons</artifactId>
             <version>${project.version}</version>
         </dependency>
+        
         <dependency>
             <groupId>com.springrts</groupId>
             <artifactId>unitsync</artifactId>
@@ -30,8 +39,13 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>openlobby-messenger</artifactId>
+            <artifactId>openlobby-communication</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>biz.source_code</groupId>
+            <artifactId>base64coder</artifactId>
+            <version>2010-12-19</version>
         </dependency>
     </dependencies>
     
@@ -39,6 +53,7 @@
         <sourceDirectory>src/main/scala</sourceDirectory>
         <testSourceDirectory>src/test/scala</testSourceDirectory>
         <plugins>
+            
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -47,12 +62,14 @@
                 <configuration>
                     <instructions>
                         <Bundle-Activator>com.openlobby.login.Activator</Bundle-Activator>
+                        <Export-Package>biz.source_code.base64Coder</Export-Package>
                     </instructions>
                     <scalaversion>${scala.version}</scalaversion>
                     <sourceDir>src/main/scala</sourceDir>
                     <testSourceDir>src/test/scala</testSourceDir>
                 </configuration>
             </plugin>
+            
         </plugins>
     </build>
 </project>

@@ -8,3 +8,10 @@
 /modules/Commons/target/
 /modules/Logging/target/
 /modules/Messenger/target/
+/modules/Test/target/
+/modules/Chat/target/
+/modules/Battle/target/
+/modules/List/target/
+/modules/Wrapper/target/
+/modules/Communication/target/
+/modules/IO/target/

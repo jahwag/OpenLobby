@@ -33,7 +33,7 @@ class LoggingServiceImpl extends LoggingService with LogListener {
       case LogService.LOG_INFO => msg = time + "[INFO]" + std
       case LogService.LOG_WARNING => msg = time + "[WARNING]" + std
       case LogService.LOG_DEBUG => msg = time + "[DEBUG]" + std
-      case LogService.LOG_ERROR => msg = time + "[ERROR]" + std +" "+ entry.getException
+      case LogService.LOG_ERROR => msg = time + "[ERROR]" + std +" "+ entry.getException.getStackTrace.mkString("\n* ")
     }
     println(msg)
   }
