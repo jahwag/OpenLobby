@@ -46,7 +46,6 @@ class BundleLauncher(modulesDir : String, context : BundleContext) {
                     installBundle("openlobby-login"),
                     installBundle("openlobby-chat"),
                     installBundle("openlobby-battle")
-                    
     )
     
     list.foreach {bundle => bundle.start}

@@ -54,21 +54,9 @@ class CommunicationServiceImpl extends ServiceThreadImpl with ListenerService wi
   override def run {
     logService.log(LogService.LOG_INFO, "Communication Thread started.")
     
-    while(in == null || os == null) {
-      try {
-        val t = connect
-        in = t._1
-        os = t._2
-      
-      } catch {
-        case e : UnknownHostException => 
-          logService.log(LogService.LOG_WARNING, "Lobby server host was unavailable. Re-trying in 25 seconds.")
-          Thread.sleep(25000) // sleep for 10s then retry
-      }
-    } 
+    connectToServer
     
     try {
-      
       while(getRunState) {
         val msg = listen(in)
         update(msg)
@@ -76,6 +64,25 @@ class CommunicationServiceImpl extends ServiceThreadImpl with ListenerService wi
       
     } catch {
       case e: IOException => logService.log(LogService.LOG_ERROR, e.getMessage) // TODO notify listeners then stop
+    }
+  }
+  
+  private def connectToServer {
+    while(in == null) {
+      logService.log(LogService.LOG_INFO, "Connecting to server.")
+    
+      try {
+        val t = connect
+        in = t._1
+        os = t._2
+      } catch {
+        case e : UnknownHostException => 
+          logService.log(LogService.LOG_WARNING, "Lobby server host was unavailable. Re-trying in 25 seconds.")
+      }
+      
+      if(in == null || os == null) {
+        Thread.sleep(25000) // sleep for 10s then retry
+      }
     }
   }
   
@@ -117,6 +124,5 @@ class CommunicationServiceImpl extends ServiceThreadImpl with ListenerService wi
     os.write(cmd)
     os.flush
   }
-  
   
 }

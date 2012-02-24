@@ -15,3 +15,8 @@
 /modules/Wrapper/target/
 /modules/Communication/target/
 /modules/IO/target/
+
+*/nbactions.xml
+*/nb-configuration.xml
+*/module
+*/felix-cache
