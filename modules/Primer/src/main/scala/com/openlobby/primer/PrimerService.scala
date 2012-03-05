@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.openlobby.commons
+package com.openlobby.primer
 
-trait CommonsService {
+trait PrimerService {
+  
   
 }

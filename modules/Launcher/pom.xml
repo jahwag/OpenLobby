@@ -5,6 +5,7 @@
         <groupId>com.openlobby</groupId>
         <artifactId>openlobby</artifactId>
         <version>0.1-SNAPSHOT</version>
+        <relativePath>./../../pom.xml</relativePath>
     </parent>
     
     <packaging>jar</packaging>
@@ -23,7 +24,11 @@
             <artifactId>org.apache.felix.dependencymanager</artifactId>
             <version>3.0.0</version>
         </dependency>
-      
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>openlobby-io</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     
     
@@ -38,7 +43,7 @@
                 <executions>
                     <execution>
                         <id>bundle-project-sources</id>
-                        <phase>package</phase>
+                        <phase>deploy</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
@@ -129,6 +134,15 @@
                                 
                                 <artifactItem>
                                     <groupId>com.openlobby</groupId>
+                                    <artifactId>openlobby-primer</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${basedir}/module</outputDirectory>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                                
+                                <artifactItem>
+                                    <groupId>com.openlobby</groupId>
                                     <artifactId>openlobby-io</artifactId>
                                     <version>${project.version}</version>
                                     <type>jar</type>
@@ -137,15 +151,6 @@
                                 </artifactItem>
                                 
                                 <!-- non-modules -->
-                                <artifactItem>
-                                    <groupId>org.codehaus.groovy</groupId>
-                                    <artifactId>groovy-all</artifactId>
-                                    <version>2.0.0-beta-2</version>
-                                    <type>jar</type>
-                                    <outputDirectory>${basedir}/module</outputDirectory>
-                                    <overWrite>true</overWrite>
-                                </artifactItem>
-                                
                                 <artifactItem>
                                     <groupId>com.weiglewilczek.scala-lang-osgi</groupId>
                                     <artifactId>scala-library</artifactId>
@@ -208,7 +213,7 @@
                                     <outputDirectory>${basedir}/module</outputDirectory>
                                     <overWrite>true</overWrite>
                                 </artifactItem>
-                            
+                                         
                              <!-- <artifactItem>
                                     <groupId>org.glassfish.external</groupId>
                                     <artifactId>antlr-repackaged</artifactId>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Jahziah Wagner <jahziah[dot]wagner[at]gmail[dot]com>.
+ * Copyright 2012 Spring RTS Community.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.openlobby.launcher;
 
-package com.openlobby.commons
+/**
+ * Supported JVM scripting languages.
+ */
+public enum ScriptType {
+    groovy,
+    ruby,
+    python;
 
-trait CommonsService {
-  
+    public String getScriptWorkingPath() {
+        return "./ui/"+name()+"/";
+    }
 }

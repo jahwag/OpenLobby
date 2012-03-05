@@ -18,20 +18,19 @@ package com.openlobby.launcher
 
 import java.util.HashMap
 import java.util.ServiceLoader
+import javax.script.ScriptEngineManager
 import org.osgi.framework.BundleContext
 import org.osgi.framework.BundleException
 import org.osgi.framework.launch.FrameworkFactory
 
-class Launcher(modulesDir : String) {
-  val context : BundleContext = startFramework
-  val launcher = new BundleLauncher(modulesDir, context)
-  init
+object Launcher {
+  final val context : BundleContext = startFramework
   
   def getContext:BundleContext = context
   
   def init {
     try {
-      launcher.launchBundles
+      BundleLauncher.init(context)
     } catch{
       case e : BundleException => e.printStackTrace
     }
@@ -45,5 +44,5 @@ class Launcher(modulesDir : String) {
     framework.start();
     return framework.getBundleContext
   }
-  
+ 
 }

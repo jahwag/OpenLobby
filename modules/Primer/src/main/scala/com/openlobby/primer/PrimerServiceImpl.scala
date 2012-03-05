@@ -14,45 +14,42 @@
  * limitations under the License.
  */
 
-package com.openlobby.launcher
+package com.openlobby.primer
 
 import com.openlobby.io.IOService
+import com.openlobby.launcher.BundleLauncher
 import java.io.File
 import java.util.Collections
 import java.util.LinkedList
-import java.util.prefs.Preferences
 import org.osgi.framework.Bundle
 import org.osgi.framework.BundleContext
 import org.osgi.framework.BundleException
+import org.osgi.service.log.LogService
 
-object BundleLauncher {
+class PrimerServiceImpl extends PrimerService {
+  @volatile private var logService : LogService = _
+  @volatile private var ioService : IOService = _
+  @volatile private var context : BundleContext = _
   val modulesDir = "./module"
-  var context : BundleContext = null
   
-  def init( context : BundleContext) {
-    this.context = context
-    launchMandatoryBundles
+  def added(ioService : IOService) {
+    ioService.loadConfig
+    launchBundles(ioService)
   }
   
-  @throws(classOf[BundleException])
-  private def launchMandatoryBundles {
-    val unitsyncPath = "C:\\Program Files (x86)\\Spring\\unitsync.dll"
-    Preferences.userRoot().put("unitsync.path", unitsyncPath);
+  def removed(ioService : IOService) {
+  }  
+
+   @throws(classOf[BundleException])
+  def launchBundles(ioService : IOService) {
+    val modules : Array[String] = ioService.getConfigValues("modules")
     
-    // Mandatory bundles
-    val list = List(installBundle("org.osgi.compendium-4.1.0"),
-                    installBundle("org.osgi.compendium-1.4.0"),
-                    installBundle("org.apache.felix.dependencymanager"),
-                    installBundle("org.apache.felix.log"), 
-                    installBundle("scala-library"), 
-                    installBundle("openlobby-logging"),
-                    installBundle("openlobby-io"),
-                    installBundle("openlobby-primer")
-    )
-    
-    list.foreach {bundle => bundle.start}
+    // Start each module
+    modules.foreach { module => 
+      val bundle = installBundle(module)
+      bundle.start
+    }
   }
-  
   
   /**
    * Locate the most recent version of a bundle and install it.
@@ -73,9 +70,7 @@ object BundleLauncher {
     }
     
     Collections.sort(versions)
-    
     return context.installBundle("file:" + versions.getFirst)
   }
-  
   
 }

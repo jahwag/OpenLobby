@@ -31,13 +31,8 @@ class Activator extends DependencyActivatorBase {
                 .add(createServiceDependency
                      .setService(classOf[LogService])
                      .setRequired(false)
-      )
+      ) 
     )
-    
-    val ref = ctx.getServiceReference(classOf[IOService].getName)
-    val s : IOService = ctx.getService(ref).asInstanceOf[IOService]
-    s.initIO
-    
   }
   
   def destroy(ctx : BundleContext, manager : DependencyManager) {

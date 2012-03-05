@@ -25,23 +25,26 @@ import org.osgi.service.log.LogService
 
 class IOServiceImpl extends IOService {
   @volatile private var logService : LogService = _
-  private final val CONFIG_FILENAME = "./config.xml"
-  private final val CONFIG_COMMENT = "Configuration file for OpenLobby."
+  private final val CONFIG_FILENAME = "./config.cfg"
   private val config = new Properties
  
-  def initIO {
+  def loadConfig {
     var is : InputStream = null
     
+    // Open inputstream
     try {
       is = new FileInputStream(CONFIG_FILENAME)
     } catch {
-      case e: Exception => is = createConfig
+      case e: FileNotFoundException => is = createConfig
+      case e: Exception => logService.log(LogService.LOG_WARNING, "Could not read " + CONFIG_FILENAME +".")
     }
     
-    config.loadFromXML(is)
+    // Load XML
+    config.load(is)
     
     logService.log(LogService.LOG_INFO, "Loaded config file.")
     
+    // Close inputstream
     is.close
   }
   
@@ -50,10 +53,9 @@ class IOServiceImpl extends IOService {
    */
   @throws(classOf[Exception])
   private def createConfig:InputStream = {
+    // Write config to disk
     val os = new FileOutputStream(CONFIG_FILENAME)
-    
-    config.storeToXML(os, CONFIG_COMMENT, "UTF-8")
-    
+    config.store(os, CONFIG_FILENAME)
     os.close
     
     logService.log(LogService.LOG_INFO, "Created config file.")
@@ -65,8 +67,16 @@ class IOServiceImpl extends IOService {
     return config.getProperty(key)
   }
   
+  def getConfigValues(key : String):Array[String] = {
+    return getConfigValue(key).split(", ")
+  }
+  
   def setConfigValue(key : String, value : String) {
     config.setProperty(key, value)
+  }
+  
+  def setConfigValues(key : String, value : Array[String]) {
+    config.setProperty(key, value.mkString(", "))
   }
   
   def createScriptText(properties : Array[String]) {

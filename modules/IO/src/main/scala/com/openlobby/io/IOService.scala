@@ -23,20 +23,31 @@ trait IOService {
   /**
    * Initializes IO Service.
    */
-  def initIO
+  def loadConfig
 
   /**
    * Read a config key.
-   * @return value of config key.
-   * * @throws throws IOException if reading failed.
+   * @return value of config key or null if not found.
    */
   def getConfigValue(key : String):String
+  
+  /**
+   * Read a config key which contains multiple sub-elements.
+   * @return elements of config key or null if not found.
+   */
+  def getConfigValues(key : String):Array[String]
   
   /**
    * Sets config key to the specified value.
    * @throws throws IOException if writing failed.
    */
   def setConfigValue(key : String, value : String)
+  
+  /**
+   * Sets config key to the specified values. 
+   * @throws throws IOException if writing failed.
+   */
+  def setConfigValues(key : String, value : Array[String]) 
   
   /**
    * Creates/overwrites script.txt with the specified content.

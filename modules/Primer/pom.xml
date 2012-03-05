@@ -9,45 +9,52 @@
         <version>0.1-SNAPSHOT</version>
         <relativePath>./../../pom.xml</relativePath>
     </parent>
-    
+
     <packaging>bundle</packaging>
-    <artifactId>openlobby-communication</artifactId>
-    <name>OpenLobby-Communication OSGi Bundle</name>
+    <artifactId>openlobby-primer</artifactId>
+    <name>OpenLobby-Primer OSGi Bundle</name>
+    <description>
+        Primer is started by OpenLobby-launcher when all core dependencies have been resolved. 
+        It is responsible for putting the lobby in a runnable state where the GUI can be loaded.
+    </description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    
+
     <dependencies>
+        
         <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.dependencymanager</artifactId>
             <version>3.0.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.log</artifactId>
-            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>openlobby-commons</artifactId>
+            <artifactId>openlobby-io</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>openlobby-launcher</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
 
     <build>
+        <sourceDirectory>src/main/scala</sourceDirectory>
+        <testSourceDirectory>src/test/scala</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>2.3.6</version>
+                <version>2.3.7</version>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-Activator>com.openlobby.communication.Activator</Bundle-Activator>
+                        <Bundle-Activator>com.openlobby.primer.Activator</Bundle-Activator>
                     </instructions>
+                    <scalaversion>${scala.version}</scalaversion>
                     <sourceDir>src/main/scala</sourceDir>
                     <testSourceDir>src/test/scala</testSourceDir>
                 </configuration>

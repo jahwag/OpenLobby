@@ -23,14 +23,4 @@ import org.osgi.service.log.LogService
 class CommonsServiceImpl extends CommonsService with ServerConstants {
   @volatile private var logService : LogService = _
   
-  def startScripting {
-    val scriptEngine = new ScriptEngineManager
-    
-    scriptEngine.getEngineFactories.toArray.foreach {scriptEngine=>
-      logService.log(LogService.LOG_INFO, "ScriptEngine found: " + scriptEngine)
-    }
-    
-    
-      
-  }
 }

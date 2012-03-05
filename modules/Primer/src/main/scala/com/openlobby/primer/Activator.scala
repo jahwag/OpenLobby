@@ -13,24 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.openlobby.commons
+package com.openlobby.primer
 
-import com.openlobby.constants.commons.ServerConstants
 import org.apache.felix.dm.DependencyActivatorBase
 import org.apache.felix.dm.DependencyManager
 import org.osgi.framework.BundleContext
 import org.osgi.service.log.LogService
+import com.openlobby.io.IOService
 
 class Activator extends DependencyActivatorBase {  
   
   def init(ctx : BundleContext, manager : DependencyManager) {
-    
-    val arr = Array(classOf[CommonsService].getName, 
-                    classOf[ServerConstants].getName)
-    
-    manager.add(createComponent.setInterface(arr, null)
-                .setImplementation(classOf[CommonsServiceImpl])
-    
+    manager.add(createComponent
+                .setInterface(classOf[PrimerService].getName, null)
+                .setImplementation(classOf[PrimerServiceImpl])
+                
+                .add(createServiceDependency.setService(classOf[IOService])
+                     .setRequired(false)
+                     .setCallbacks("added", "removed")
+      )     
                 .add(createServiceDependency
                      .setService(classOf[LogService])
                      .setRequired(false)

@@ -26,7 +26,7 @@ object App {
         }})
     
     println("Starting OpenLobby.")
-    new Launcher("module/")
+    Launcher.init
   }
   
 }
