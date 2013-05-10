@@ -1,3 +1,4 @@
+#Target
 /target/
 /modules/Launcher/target/
 /modules/Core/target/
@@ -16,6 +17,7 @@
 /modules/Communication/target/
 /modules/IO/target/
 
+#Netbeans
 nbaction.xml
 */nbactions.xml
 */nb-configuration.xml
@@ -23,5 +25,10 @@ nbaction.xml
 */felix-cache
 /modules/Primer/target/
 
+#IntelliJ
+.idea
+*.iml
+
+#Eclipse
 .settings
 .project
