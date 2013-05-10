@@ -1,8 +1,17 @@
 # OpenLobby
 This is a modular cross-platform lobby for Spring (www.springrts.com) intended as a successor to CheeseLobby.
 
-Essentials
------	
+Getting started
+---------------
+For Eclipse, you will need the following plug-ins:
+*	m2eclipse-scala
+*	jgit
+
+For Netbeans, you will need the following plug-ins:
+*	nbscala	https://github.com/dcaoyuan/nbscala
+
+Building
+--------	
 ###Unit tests
 Run the 'surefire:test' goal.
 	
@@ -15,36 +24,23 @@ Run the 'exec:exec' goal on the Launcher module.
 ###Deployment
 After building, zip file will be found in modules/Distribution/target/.
 
-Architecture
-------------
-Bundles are found inside /modules/.
+Project overview
+----------------
+From 10,000 ft.
 
-## Overview
-- OpenLobby:			Aggregator/parent project inherited by children.
-	- Core-manager: 	Handles OSGi dirty work.
-	- Launcher: 		Contains main class (loads OSGi framework and scripting environment).
-	- Listener: 		Listens for server messages, see https://github.com/spring/LobbyProtocol
-	- Login:			Provides functionality for login consumers (login, registration).
-	- Communication:	Provides functionality for chat consumer (chat, channels, listing users).
-	- Room:				Provides functionality for battle consumers (join, host, leave, list).
-	- Download:			Provides functionality for download consumers (rapid, http, torrent).
-	- JUnitsync:		See https://github.com/spring/JUnitSync	
-	- Logging:			File and remote logging wrapper for the OSGi logging service.
-	- Distribution:		Collects artifacts from all modules and assembles them.
-	
-## Frontend(GUI)
-The OpenLobby frontend will be composed of JSR223 scripts for flexibility.
+OpenLobby is the parent project, an aggregator project in Maven terminology. The modules are:
+*	Battle
+*	Chat
+*	Commons
+*	Communication
+*	IO
+*	Launcher
+*	Logging
+*	Login
+*	Primer
 
-## Modules
-### Core-manager
-### Launcher (not a bundle)
-### Listener
-#### ListenerService
-#### ListenerServiceImpl
-### Login
-### Communication
-### Room
-### Download
-### JUnitsync
-### Logging
-### Distribution (not a bundle)
+These are found in /modules/.
+
+The /protocol/ directory contains a description of the implemented spring lobby protocol.
+
+The (future) UI may support JSR223 scripting. The idea is to allow spring engine games to customize the lobby to fit their needs.

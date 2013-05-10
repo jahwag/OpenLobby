@@ -16,8 +16,12 @@
 /modules/Communication/target/
 /modules/IO/target/
 
+nbaction.xml
 */nbactions.xml
 */nb-configuration.xml
 */module
 */felix-cache
 /modules/Primer/target/
+
+.settings
+.project
