@@ -21,25 +21,25 @@ import org.osgi.framework.BundleContext
 import org.osgi.service.log.LogService
 import com.openlobby.io.IOService
 
-class Activator extends DependencyActivatorBase {  
-  
-  def init(ctx : BundleContext, manager : DependencyManager) {
-    manager.add(createComponent
-                .setInterface(classOf[PrimerService].getName, null)
-                .setImplementation(classOf[PrimerServiceImpl])
-                
-                .add(createServiceDependency.setService(classOf[IOService])
-                     .setRequired(false)
-                     .setCallbacks("added", "removed")
-      )     
-                .add(createServiceDependency
-                     .setService(classOf[LogService])
-                     .setRequired(false)
-      )
-    )
-  }
-  
-  def destroy(ctx : BundleContext, manager : DependencyManager) {
-  }
-  
+class Activator extends DependencyActivatorBase {
+
+	def init(ctx: BundleContext, manager: DependencyManager) {
+		manager.add(createComponent
+			.setInterface(classOf[PrimerService].getName, null)
+			.setImplementation(classOf[PrimerServiceImpl])
+
+			//                .add(createServiceDependency.setService(classOf[IOService])
+			//                     .setRequired(false)
+			//                     .setCallbacks("added", "removed")
+			//      )
+			.add(createServiceDependency
+			.setService(classOf[LogService])
+			.setRequired(true)
+		)
+		)
+	}
+
+	def destroy(ctx: BundleContext, manager: DependencyManager) {
+	}
+
 }

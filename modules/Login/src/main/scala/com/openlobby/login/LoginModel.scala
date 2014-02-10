@@ -16,8 +16,8 @@
 
 package com.openlobby.login
 
-import com.openlobby.commons.GenericObserver
 import org.osgi.service.log.LogService
+import com.openlobby.primer.GenericObserver
 
 class LoginModel(parent : LoginServiceImpl) extends GenericObserver[LoginModelObserver] {
   private var agreement = ""

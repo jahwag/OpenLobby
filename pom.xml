@@ -244,13 +244,10 @@
     
     <modules>
         <module>modules/Primer</module>
-        <module>modules/Commons</module>
-        <module>modules/Logging</module>
         <module>modules/Communication</module>
         <module>modules/Login</module>
         <module>modules/Chat</module>
         <module>modules/Battle</module>
-        <module>modules/IO</module>
         <module>modules/Launcher</module>
     </modules>
     

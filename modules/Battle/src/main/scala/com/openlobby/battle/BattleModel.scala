@@ -16,7 +16,7 @@
 
 package com.openlobby.battle
 
-import com.openlobby.commons.GenericObserver
+import com.openlobby.primer.GenericObserver
 
 class BattleModel(parent : BattleServiceImpl) extends GenericObserver[BattleModelObserver] {
 

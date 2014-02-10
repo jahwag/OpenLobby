@@ -32,3 +32,7 @@ nbaction.xml
 #Eclipse
 .settings
 .project
+
+#OSGi
+felix-cache
+*.jar

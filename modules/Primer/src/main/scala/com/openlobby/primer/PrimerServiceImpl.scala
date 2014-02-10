@@ -27,50 +27,60 @@ import org.osgi.framework.BundleException
 import org.osgi.service.log.LogService
 
 class PrimerServiceImpl extends PrimerService {
-  @volatile private var logService : LogService = _
-  @volatile private var ioService : IOService = _
-  @volatile private var context : BundleContext = _
-  val modulesDir = "./module"
-  
-  def added(ioService : IOService) {
-    ioService.loadConfig
-    launchBundles(ioService)
-  }
-  
-  def removed(ioService : IOService) {
-  }  
+	@volatile private var logService: LogService = _
+//	@volatile private val ioService: IOService = _
+	@volatile private var context: BundleContext = _
+	val modulesDir = "./module"
 
-   @throws(classOf[BundleException])
-  def launchBundles(ioService : IOService) {
-    val modules : Array[String] = ioService.getConfigValues("modules")
-    
-    // Start each module
-    modules.foreach { module => 
-      val bundle = installBundle(module)
-      bundle.start
-    }
-  }
-  
-  /**
-   * Locate the most recent version of a bundle and install it.
-   * @param artifactId artifactId of bundle.
-   */
-  @throws(classOf[BundleException])
-  private def installBundle(artifactId: String):Bundle = {
-    val files = new File(modulesDir).listFiles
-    
-    val versions = new LinkedList[File]
-    
-    files.foreach { file =>
-      if(file.getName.contains(artifactId)) versions.add(file)
-    }
-    
-    if(versions.isEmpty) {
-      throw new BundleException("[ERROR]: Unable to locate artifactId: " + artifactId)
-    }
-    
-    Collections.sort(versions)
-    return context.installBundle("file:" + versions.getFirst)
-  }
-  
+	def added(ioService: IOService) {
+		ioService.loadConfig
+		launchBundles(ioService)
+	}
+
+	def removed(ioService: IOService) {
+	}
+
+	@throws(classOf[BundleException])
+	def launchBundles(ioService: IOService) {
+		val modules: Array[String] = ioService.getConfigValues("modules")
+
+		// Start each module
+		modules.foreach {
+			module =>
+				val bundle = installBundle(module)
+
+				try {
+					bundle.start()
+				} catch {
+					case e: BundleException => logService.log(LogService.LOG_ERROR, "Bundle " + bundle.getSymbolicName + " failed to start.")
+				}
+		}
+	}
+
+	/**
+	 * Locate the most recent version of a bundle and install it.
+	 * @param artifactId artifactId of bundle.
+	 */
+	@throws(classOf[BundleException])
+	private def installBundle(artifactId: String): Bundle = {
+		val files = new File(modulesDir).listFiles
+
+		val versions = new LinkedList[File]
+
+		files.foreach {
+			file =>
+				if (file.getName.contains(artifactId)) versions.add(file)
+		}
+
+		if (versions.isEmpty) {
+			throw new BundleException("[ERROR]: Unable to locate artifactId: " + artifactId)
+		}
+
+		Collections.sort(versions)
+
+		logService.log(LogService.LOG_ERROR, versions.getFirst.toString)
+
+		return context.installBundle("file:" + versions.getFirst)
+	}
+
 }

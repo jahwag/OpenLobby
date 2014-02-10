@@ -14,8 +14,29 @@
  * limitations under the License.
  */
 
-package com.openlobby.commons
+package com.openlobby.primer
 
-trait CommonsService {
+import scala.collection.mutable.ListBuffer
+
+class GenericObserver[T] {
   
+  private val observers = new ListBuffer[T]
+  
+  /**
+   * Register as an observer.
+   */
+  def register(observer : T) = observers append observer
+  
+  /**
+   * Unregister as an observer.
+   * 
+   * This should be done if a module is removed.
+   */
+  def unregister(observer : T) = observers remove observers.indexOf(observer)
+  
+  /**
+   * Returns a scala.collection.mutable.ListBuffer of observers.
+   */
+  def getObservers = observers
+
 }

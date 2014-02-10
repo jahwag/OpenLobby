@@ -19,30 +19,50 @@ package com.openlobby.launcher
 import java.util.HashMap
 import java.util.ServiceLoader
 import javax.script.ScriptEngineManager
-import org.osgi.framework.BundleContext
-import org.osgi.framework.BundleException
+import org.osgi.framework.{Constants, BundleContext, BundleException}
 import org.osgi.framework.launch.FrameworkFactory
 
 object Launcher {
-  final val context : BundleContext = startFramework
-  
-  def getContext:BundleContext = context
-  
-  def init {
-    try {
-      BundleLauncher.init(context)
-    } catch{
-      case e : BundleException => e.printStackTrace
-    }
-  }
-  
-  private def startFramework:BundleContext= {
-    val frameworkFactory = ServiceLoader.load(classOf[FrameworkFactory]).iterator().next();
-    val config = new HashMap[String, String];
-    config.put("org.osgi.framework.storage.clean", "onFirstInit")
-    val framework = frameworkFactory.newFramework(config);
-    framework.start();
-    return framework.getBundleContext
-  }
- 
+	final val context: BundleContext = startFramework
+
+	def getContext: BundleContext = context
+
+	def init {
+		try {
+			BundleLauncher.init(context)
+		} catch {
+			case e: BundleException => e.printStackTrace
+		}
+	}
+
+	private def startFramework: BundleContext = {
+		val frameworkFactory = ServiceLoader.load(classOf[FrameworkFactory]).iterator().next();
+
+		val config = new HashMap[String, String];
+		config.put(Constants.FRAMEWORK_STORAGE_CLEAN, "true")
+		config.put("felix.embedded.execution", "true")
+		config.put("felix.shutdown.hook", "true")
+		val framework = frameworkFactory.newFramework(config);
+		framework.start();
+
+		// Add shutdown hook
+		Runtime.getRuntime.addShutdownHook(
+			new Thread {
+				override def run {
+					println("Stopping OpenLobby.")
+
+					try {
+						framework.waitForStop(0);
+					} finally {
+						System.exit(0);
+					}
+
+				}
+			})
+
+
+
+		return framework.getBundleContext
+	}
+
 }

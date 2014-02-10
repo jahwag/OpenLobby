@@ -26,56 +26,59 @@ import org.osgi.framework.BundleContext
 import org.osgi.framework.BundleException
 
 object BundleLauncher {
-  val modulesDir = "./module"
-  var context : BundleContext = null
-  
-  def init( context : BundleContext) {
-    this.context = context
-    launchMandatoryBundles
-  }
-  
-  @throws(classOf[BundleException])
-  private def launchMandatoryBundles {
-    val unitsyncPath = "C:\\Program Files (x86)\\Spring\\unitsync.dll"
-    Preferences.userRoot().put("unitsync.path", unitsyncPath);
-    
-    // Mandatory bundles
-    val list = List(installBundle("org.osgi.compendium-4.1.0"),
-                    installBundle("org.osgi.compendium-1.4.0"),
-                    installBundle("org.apache.felix.dependencymanager"),
-                    installBundle("org.apache.felix.log"), 
-                    installBundle("scala-library"), 
-                    installBundle("openlobby-logging"),
-                    installBundle("openlobby-io"),
-                    installBundle("openlobby-primer")
-    )
-    
-    list.foreach {bundle => bundle.start}
-  }
-  
-  
-  /**
-   * Locate the most recent version of a bundle and install it.
-   * @param artifactId artifactId of bundle.
-   */
-  @throws(classOf[BundleException])
-  private def installBundle(artifactId: String):Bundle = {
-    val files = new File(modulesDir).listFiles
-    
-    val versions = new LinkedList[File]
-    
-    files.foreach { file =>
-      if(file.getName.contains(artifactId)) versions.add(file)
-    }
-    
-    if(versions.isEmpty) {
-      throw new BundleException("[ERROR]: Unable to locate artifactId: " + artifactId)
-    }
-    
-    Collections.sort(versions)
-    
-    return context.installBundle("file:" + versions.getFirst)
-  }
-  
-  
+	val modulesDir = "./module"
+	var context: BundleContext = null
+
+	def init(context: BundleContext) {
+		this.context = context
+		launchMandatoryBundles
+	}
+
+	@throws(classOf[BundleException])
+	private def launchMandatoryBundles {
+		val unitsyncPath = "C:\\Program Files (x86)\\Spring\\unitsync.dll"
+		Preferences.userRoot().put("unitsync.path", unitsyncPath);
+
+		// Mandatory bundles
+		val list = List(installBundle("org.osgi.compendium-4.1.0"),
+			installBundle("org.osgi.compendium-1.4.0"),
+			installBundle("org.apache.felix.dependencymanager"),
+			installBundle("org.apache.felix.log"),
+			installBundle("scala-library"),
+			installBundle("openlobby-logging"),
+			installBundle("openlobby-io"),
+			installBundle("openlobby-primer")
+		)
+
+		list.foreach {
+			bundle => bundle.start
+		}
+	}
+
+
+	/**
+	 * Locate the most recent version of a bundle and install it.
+	 * @param artifactId artifactId of bundle.
+	 */
+	@throws(classOf[BundleException])
+	private def installBundle(artifactId: String): Bundle = {
+		val files = new File(modulesDir).listFiles
+
+		val versions = new LinkedList[File]
+
+		files.foreach {
+			file =>
+				if (file.getName.contains(artifactId)) versions.add(file)
+		}
+
+		if (versions.isEmpty) {
+			throw new BundleException("[ERROR]: Unable to locate artifactId: " + artifactId)
+		}
+
+		Collections.sort(versions)
+
+		return context.installBundle("file:" + versions.getFirst)
+	}
+
+
 }

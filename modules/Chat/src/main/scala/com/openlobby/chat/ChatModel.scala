@@ -20,9 +20,9 @@ import com.openlobby.chat.containers.ChatChannel
 import com.openlobby.chat.containers.MainChannel
 import com.openlobby.chat.containers.ServerMessage
 import com.openlobby.chat.containers.User
-import com.openlobby.commons.GenericObserver
 import scala.collection.mutable.HashMap
 import scala.collection.mutable.ListBuffer
+import com.openlobby.primer.GenericObserver
 
 class ChatModel(parent : ChatServiceImpl) extends GenericObserver[ChatModelObserver] {
   
